@@ -61,16 +61,25 @@ body {
   padding: 18px 28px;
 }
 
+.profile-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(2px);
+}
+
 .top-nav-left {
   display: flex;
   gap: 38px;
 }
 
 .top-nav-left a {
-  font-size: 14px;
-  color: #c7ccd6;
+  font-size: 13px;
+  color: #d4d8e0;
   text-decoration: none;
   letter-spacing: 0.01em;
+}
+
+.top-nav-left a:hover {
+  color: #ffffff;
 }
 
 .logo-mark {
@@ -103,11 +112,11 @@ body {
 .start-project {
   border: 0;
   background: transparent;
-  color: #d7dbe4;
+  color: #dfe3eb;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -173,9 +182,33 @@ body {
 }
 
 @media (max-width: 900px) {
-  .top-nav-left,
+  .top-nav {
+    padding: 14px 16px;
+  }
+
+  .top-nav-left {
+    gap: 14px;
+  }
+
+  .top-nav-left a {
+    font-size: 11px;
+  }
+
+  .top-nav-right {
+    gap: 10px;
+  }
+
   .start-project {
-    display: none;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .menu-btn {
+    width: 22px;
+  }
+
+  .menu-btn span {
+    width: 20px;
   }
 
   .hero-content {
