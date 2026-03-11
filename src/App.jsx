@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Monitor, Pencil, Target, TrendingUp, Users } from 'lucide-react';
+import heroVideo from '../Mockaps/AZr-2xR-XmdCMCCPjuJ3Cw-AZr-2xR-HPhs_L2nyekk4A.mp4';
+import './second-page.css';
 
 const ROTATING_LINES = [
   'Tech Ventures',
@@ -9,6 +12,14 @@ const ROTATING_LINES = [
   'Innovative Platforms',
 ];
 
+const SERVICES = [
+  { label: 'Tech Development', Icon: Monitor },
+  { label: 'Product Design', Icon: Pencil },
+  { label: 'AI Solutions', Icon: Target },
+  { label: 'Growth Marketing', Icon: TrendingUp },
+  { label: 'Digital Transformation', Icon: Users },
+];
+
 export default function App() {
   const [index, setIndex] = useState(0);
 
@@ -16,12 +27,12 @@ export default function App() {
     const id = setInterval(() => {
       setIndex((current) => (current + 1) % ROTATING_LINES.length);
     }, 2400);
-
     return () => clearInterval(id);
   }, []);
 
   return (
-    <section className="hero-page">
+    <>
+    <section id="into-section" className="hero-page into-section">
       <div className="hero-bg" aria-hidden="true">
         <svg className="hero-bg-svg" viewBox="0 0 1024 362" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line x1="405" y1="0" x2="405" y2="362" className="geo-line" />
@@ -46,10 +57,10 @@ export default function App() {
         </div>
 
         <div className="top-nav-right profile-actions">
-          <button className="start-project profile-start" type="button">
+          <a className="start-project profile-start" href="#video-section">
             Start a project
             <span aria-hidden="true">↗</span>
-          </button>
+          </a>
           <button className="menu-btn" type="button" aria-label="Menu">
             <span />
             <span />
@@ -81,7 +92,49 @@ export default function App() {
           <br />
           driven by strategy, design and technology
         </p>
+        <button className="hero-work-with-us" type="button">
+          Work with us <span aria-hidden="true">↗</span>
+        </button>
       </main>
+
     </section>
+    <section id="video-section" className="second-page video-section">
+      <svg className="mask-defs" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="frameClip" clipPathUnits="objectBoundingBox">
+            <path d="M0.03 0.08H0.5V0.03H0.97V0.44A0.53 0.53 0 0 1 0.44 0.97H0.03V0.52H0.5V0.08Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      <div className="second-grid">
+        <div className="second-video-col">
+          <div className="second-video-shell">
+            <video className="second-video" autoPlay muted loop playsInline>
+              <source src={heroVideo} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div className="second-copy-col">
+          <p className="second-lead">
+            Drawing on decades of expertise, Utility builds new products with innovative client
+            partners.
+          </p>
+          <ul className="second-services">
+            {SERVICES.map(({ label, Icon }) => (
+              <li key={label}>
+                <Icon className="second-service-icon" aria-hidden="true" />
+                <span>{label}</span>
+              </li>
+            ))}
+          </ul>
+          <a href="#" className="second-link">
+            View all services <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

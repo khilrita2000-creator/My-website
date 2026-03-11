@@ -23,10 +23,12 @@ body {
   color: #fff;
 }
 
+/* ── Hero page ── */
 .hero-page {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 54vh;
+  overflow-x: hidden;
+  overflow-y: visible;
   background: radial-gradient(120% 120% at 100% 0%, #0d1b36 0%, #060b18 48%);
 }
 
@@ -52,6 +54,7 @@ body {
   fill: none;
 }
 
+/* ── Header ── */
 .top-nav {
   position: relative;
   z-index: 2;
@@ -140,6 +143,7 @@ body {
   background: #bfc5d1;
 }
 
+/* ── Hero content ── */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -176,11 +180,26 @@ body {
   margin-top: 32px;
   margin-bottom: 0;
   color: #9ba2b0;
-  font-size: 29px;
-  line-height: 1.45;
+  font-size: 22px;
+  line-height: 1.35;
   max-width: 560px;
 }
 
+.hero-work-with-us {
+  margin-top: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e7ebf3;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* ── Mobile ── */
 @media (max-width: 900px) {
   .top-nav {
     padding: 14px 16px;
@@ -216,6 +235,13 @@ body {
   }
 
   .hero-subtitle {
-    font-size: 15px;
+    font-size: 14px;
   }
+
+  .hero-work-with-us {
+    padding: 11px 18px;
+    font-size: 14px;
+    gap: 8px;
+  }
+
 }
