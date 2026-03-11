@@ -1,0 +1,17 @@
+---
+description: My website project rules - dev server, no duplicates
+alwaysApply: true
+---
+
+# My Website Rules
+
+## Dev Server — Never Run Two Copies
+
+**Before starting `npm run dev`:**
+1. Check if a dev server is already running: look at open terminals, or run `lsof -i :5173` / `lsof -i :5175`
+2. If a server is running, **do not start another one** — use the existing URL (e.g. `http://localhost:5173/My-website/`)
+3. If the user asks to "open the website" or "start the dev server", first check terminals for an active `vite` or `npm run dev` process
+
+**When starting the dev server:**
+- Prefer reusing an existing session over starting a new one
+- If you must start fresh, instruct the user to stop any running dev servers first (`Ctrl+C` in those terminals)

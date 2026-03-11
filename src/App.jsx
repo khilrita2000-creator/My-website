@@ -34,8 +34,8 @@ export default function App() {
         </svg>
       </div>
 
-      <header className="top-nav">
-        <nav className="top-nav-left" aria-label="Primary">
+      <header className="top-nav profile-header">
+        <nav className="top-nav-left profile-links" aria-label="Primary">
           <a href="#">Our Company</a>
           <a href="#">Our Expertise</a>
           <a href="#">Our Work</a>
@@ -45,8 +45,8 @@ export default function App() {
           <span className="logo-cutout" />
         </div>
 
-        <div className="top-nav-right">
-          <button className="start-project" type="button">
+        <div className="top-nav-right profile-actions">
+          <button className="start-project profile-start" type="button">
             Start a project
             <span aria-hidden="true">↗</span>
           </button>
