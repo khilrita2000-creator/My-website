@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Monitor, Pencil, Target, TrendingUp, Users } from 'lucide-react';
-import heroVideo from '../Mockaps/Untitled design.mp4';
+import heroVideo from '../Mockaps/Video for website.mp4';
 import './second-page.css';
 
 const ROTATING_LINES = [
