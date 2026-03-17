@@ -1,0 +1,11 @@
+---
+description: Terminal safety rules for command execution and dev servers
+alwaysApply: true
+---
+
+# Terminal Safety Rules
+
+- Never run `npm run dev` automatically.
+- Only run terminal commands when explicitly requested by the user.
+- Do not create additional development servers.
+- Assume a dev server is already running unless told otherwise.

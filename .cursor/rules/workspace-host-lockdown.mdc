@@ -1,0 +1,25 @@
+---
+description: Lock workspace and localhost behavior to prevent desync
+alwaysApply: true
+---
+
+# Workspace + Host Lockdown (Strict)
+
+- Always work only inside this exact project path: `/Users/margarita/Documents/GitHub/My website`.
+- Before any edit, verify target file path is inside this workspace.
+- Never edit or run commands in any other project/spaces unless user explicitly requests it.
+
+## Localhost Safety
+
+- Assume one dev server already exists unless user asks to start/restart it.
+- Never run multiple dev servers for this project in parallel.
+- Never keep both `5173` and `5174` active for this app.
+- If server issues happen, stop duplicates first, then run one clean server only.
+- Canonical local URL for this project: `http://localhost:5173/My-website/`.
+
+## Verification Protocol (Required)
+
+1. Confirm working directory and active project path.
+2. Confirm single active localhost URL.
+3. After changes, report exactly which file(s) were edited.
+4. If user reports mismatch, re-verify path + host before any further edits.

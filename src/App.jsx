@@ -2,26 +2,93 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Monitor, Pencil, Target, TrendingUp, Users } from 'lucide-react';
 import heroVideo from '../Mockaps/Video for website.mp4';
+import sectionThreeAiSolutionsImage from '../Mockaps/Photo 2.jpeg';
+import sectionThreeWebPlatformsImage from '../Mockaps/Photo 3.jpeg';
+import brandLogo from './assets/logo-main.png';
+import sectionThreeMobileAppImage from './assets/section-three-mobile-app-v2.png';
+import sectionThreeStartupProductsImage from './assets/section-three-startup-products.png';
 import './second-page.css';
 
 const ROTATING_LINES = [
-  'Tech Ventures',
-  'Digital Products',
   'World Class Apps',
+  'Web Platforms',
+  'Digital Products',
   'AI Solutions',
-  'Innovative Platforms',
+  'Tech Startups',
 ];
 
 const SERVICES = [
-  { label: 'Tech Development', Icon: Monitor },
-  { label: 'Product Design', Icon: Pencil },
+  { label: 'Mobile App Development', Icon: Monitor },
+  { label: 'Web Development', Icon: Target },
+  { label: 'UI/UX Design', Icon: Pencil },
+  { label: 'MVP Development', Icon: Users },
   { label: 'AI Solutions', Icon: Target },
-  { label: 'Growth Marketing', Icon: TrendingUp },
-  { label: 'Digital Transformation', Icon: Users },
+  { label: 'Product Strategy & Growth', Icon: TrendingUp },
+];
+
+const SOLUTIONS = [
+  {
+    id: '01',
+    title: 'Mobile Apps',
+    description:
+      'High-quality iOS and Android applications built for performance, scalability, and exceptional user experience.',
+    points: [
+      'iOS App Development',
+      'Android App Development',
+      'Cross-platform Apps',
+      'App Store & Google Play Launch',
+      'Mobile App Optimization',
+    ],
+    image: sectionThreeMobileAppImage,
+  },
+  {
+    id: '02',
+    title: 'Web Platforms',
+    description:
+      'Modern websites and web platforms are built for speed, reliability, and seamless user interaction.',
+    points: [
+      'Corporate Websites',
+      'Web Applications',
+      'SaaS Platforms',
+      'E-commerce Solutions',
+      'CMS & Admin Panels',
+    ],
+    image: sectionThreeWebPlatformsImage,
+  },
+  {
+    id: '03',
+    title: 'Startup Products',
+    description:
+      'We help startups turn ideas into real products through rapid MVP creation and fast market validation.',
+    points: [
+      'MVP Development',
+      'Product Discovery',
+      'Prototype Design',
+      'Startup Tech Consulting',
+      'Product Launch Support',
+    ],
+    image: sectionThreeStartupProductsImage,
+  },
+  {
+    id: '04',
+    title: 'AI Solutions',
+    description:
+      'Custom AI integrations and intelligent tools that automate workflows and unlock new capabilities.',
+    points: [
+      'AI Chatbots',
+      'AI Automation',
+      'Machine Learning Integration',
+      'AI Data Analysis',
+      'AI-powered Applications',
+    ],
+    image: sectionThreeAiSolutionsImage,
+  },
 ];
 
 export default function App() {
   const [index, setIndex] = useState(0);
+  const [expandedIndex, setExpandedIndex] = useState(0);
+  const [activePoint, setActivePoint] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -52,8 +119,31 @@ export default function App() {
           <a href="#">Our Work</a>
         </nav>
 
-        <div className="logo-mark" aria-label="Utility logo">
-          <span className="logo-cutout" />
+        <div
+          className="logo-mark"
+          aria-label="Utility logo"
+          style={{
+            width: 56,
+            height: 56,
+            overflow: 'visible',
+            borderRadius: 0,
+            background: 'transparent',
+            zIndex: 4,
+          }}
+        >
+          <img
+            src={brandLogo}
+            alt="Integrior logo"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'center',
+              transform: 'none',
+              mixBlendMode: 'normal',
+              filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.35))',
+            }}
+          />
         </div>
 
         <div className="top-nav-right profile-actions">
@@ -88,13 +178,9 @@ export default function App() {
         </h1>
 
         <p className="hero-subtitle">
-          Utility crafts award-winning custom digital products
-          <br />
-          driven by strategy, design and technology
+          Integrior Agency builds innovative digital products powered by strategy, design and
+          technology.
         </p>
-        <button className="hero-work-with-us" type="button">
-          Work with us <span aria-hidden="true">↗</span>
-        </button>
       </main>
 
     </section>
@@ -113,13 +199,16 @@ export default function App() {
             <video className="second-video" autoPlay muted loop playsInline>
               <source src={heroVideo} type="video/mp4" />
             </video>
+            <button className="video-work-with-us second-video-cta" type="button">
+              Work with us <span aria-hidden="true">↗</span>
+            </button>
           </div>
         </div>
 
         <div className="second-copy-col">
           <p className="second-lead">
-            Drawing on decades of expertise, Utility builds new products with innovative client
-            partners.
+            Turning your ideas into innovative digital products from concept to launch. We
+            design, build and launch digital products.
           </p>
           <ul className="second-services">
             {SERVICES.map(({ label, Icon }) => (
@@ -133,6 +222,130 @@ export default function App() {
             View all services <span aria-hidden="true">↗</span>
           </a>
         </div>
+      </div>
+    </section>
+    <section id="section-three" className="section-three">
+      <div className="section-three-inner">
+        <p className="section-three-eyebrow">What we do</p>
+        <h2 className="section-three-title">Innovative digital solutions built on proven expertise</h2>
+        <div className="section-three-content">
+          <div className="section-three-left">
+            <div className="section-three-loader" aria-hidden="true">
+              <motion.span
+                className="section-three-loader-fill"
+                animate={{ y: expandedIndex * 84 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
+              />
+            </div>
+
+            <div className="section-three-list">
+              {SOLUTIONS.map((item, itemIndex) => {
+                const isOpen = expandedIndex === itemIndex;
+                return (
+                  <article
+                    key={item.id}
+                    className={`solution-item${isOpen ? ' is-open' : ''}`}
+                    onClick={() => {
+                      setExpandedIndex(itemIndex);
+                      setActivePoint(0);
+                    }}
+                    onMouseEnter={() => {
+                      setExpandedIndex(itemIndex);
+                      setActivePoint(0);
+                    }}
+                  >
+                    <button type="button" className={`solution-trigger${isOpen ? ' is-open' : ''}`}>
+                      <span className="solution-id">{item.id}</span>
+                      <h3>
+                        {item.title}
+                        <span className={`solution-arrow${isOpen ? ' is-open' : ''}`} aria-hidden="true">
+                          ↗
+                        </span>
+                      </h3>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.span
+                            className="solution-subtitle"
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.22, ease: 'easeOut' }}
+                          >
+                            {item.description}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        item.points && (
+                          <motion.div
+                            className="solution-body"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.28, ease: 'easeOut' }}
+                          >
+                            <span className="solution-body-loader-track" aria-hidden="true" />
+                            <motion.span
+                              className="solution-body-loader-thumb"
+                              aria-hidden="true"
+                              initial={{ y: 0 }}
+                              animate={{ y: activePoint * 26 }}
+                              transition={{ duration: 0.36, ease: 'easeOut' }}
+                            />
+                            <ul className="solution-points">
+                              {item.points.map((point, pointIndex) => (
+                                <li key={point}>
+                                  <button
+                                    type="button"
+                                    className={`solution-point-btn${
+                                      activePoint === pointIndex ? ' is-active' : ''
+                                    }`}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setActivePoint(pointIndex);
+                                    }}
+                                    onMouseEnter={() => setActivePoint(pointIndex)}
+                                    onFocus={() => setActivePoint(pointIndex)}
+                                  >
+                                    {point}
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )
+                      )}
+                    </AnimatePresence>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="section-three-visual">
+            <div className="section-three-media">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  className="section-three-image"
+                  key={SOLUTIONS[expandedIndex]?.id}
+                  src={SOLUTIONS[expandedIndex]?.image}
+                  alt={SOLUTIONS[expandedIndex]?.title}
+                  loading="lazy"
+                  initial={{ opacity: 0.2, scale: 1.015 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0.2, scale: 1.015 }}
+                  transition={{ duration: 0.32, ease: 'easeOut' }}
+                />
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+        <button type="button" className="section-three-cta">
+          All services <span aria-hidden="true">↗</span>
+        </button>
       </div>
     </section>
     </>

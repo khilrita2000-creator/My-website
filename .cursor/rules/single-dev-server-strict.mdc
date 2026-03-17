@@ -1,0 +1,24 @@
+---
+description: Enforce exactly one local dev server
+alwaysApply: true
+---
+
+# One Dev Server Rule (Strict)
+
+- HARD REQUIREMENT: exactly one dev server process for this project at any time.
+- Before starting a server, MUST check whether one is already running and reuse it.
+- If any duplicate exists, MUST stop duplicates first, then start one clean instance.
+- Prefer default URL/port unless user explicitly requests otherwise.
+- After any restart, report exactly one active URL.
+
+## Required Workflow
+
+1. Stop duplicates first (`vite`, `npm run dev`, equivalent watchers for this app).
+2. Start exactly one server instance.
+3. Confirm the final active local URL and share only that URL.
+
+## Forbidden
+
+- Starting a second dev server “just in case”.
+- Keeping multiple ports active for the same app (e.g. `5173` and `5174` together).
+- Starting a new server without first checking existing processes/terminals.

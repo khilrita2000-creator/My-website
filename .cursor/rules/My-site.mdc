@@ -5,13 +5,25 @@ alwaysApply: true
 
 # My Website Rules
 
-## Dev Server — Never Run Two Copies
+## DEV SERVER POLICY (HARD RULE)
 
-**Before starting `npm run dev`:**
-1. Check if a dev server is already running: look at open terminals, or run `lsof -i :5173` / `lsof -i :5175`
-2. If a server is running, **do not start another one** — use the existing URL (e.g. `http://localhost:5173/My-website/`)
-3. If the user asks to "open the website" or "start the dev server", first check terminals for an active `vite` or `npm run dev` process
+This rule is mandatory for every task in this repo.
 
-**When starting the dev server:**
-- Prefer reusing an existing session over starting a new one
-- If you must start fresh, instruct the user to stop any running dev servers first (`Ctrl+C` in those terminals)
+- NEVER run two dev servers for this project in parallel.
+- NEVER keep two localhost ports active for the same app.
+- ALWAYS verify existing running server(s) before any `npm run dev`.
+- ALWAYS use and share one canonical URL only: `http://localhost:5173/My-website/`.
+
+## Required Startup Checklist (must follow in order)
+
+1. Check active terminals/processes for `vite` or `npm run dev`.
+2. If one healthy server already exists, reuse it and do not start a new one.
+3. If duplicates exist, stop all duplicates first.
+4. Start exactly one server instance.
+5. Confirm and report one active URL only.
+
+## Forbidden (no exceptions unless user explicitly requests)
+
+- Starting a second server "for testing".
+- Leaving `5173` and `5174` running at the same time.
+- Running a fresh server without checking existing processes first.
