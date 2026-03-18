@@ -27,7 +27,7 @@ body {
 /* ── Hero page ── */
 .hero-page {
   position: relative;
-  min-height: 54vh;
+  min-height: 68vh;
   overflow-x: hidden;
   overflow-y: visible;
   background: radial-gradient(120% 120% at 100% 0%, #0d1b36 0%, #060b18 48%);
@@ -153,7 +153,7 @@ body {
   z-index: 2;
   padding-left: 28px;
   padding-right: 28px;
-  padding-top: 96px;
+  padding-top: 78px;
   max-width: 760px;
 }
 
@@ -182,15 +182,19 @@ body {
 }
 
 .hero-subtitle {
-  margin-top: 32px;
+  margin-top: 18px;
   margin-bottom: 0;
-  color: #9ba2b0;
-  font-size: 22px;
+  color: #c0c9d8;
+  font-size: 27px;
   line-height: 1.35;
   max-width: 560px;
 }
 
 @media (max-width: 1200px) {
+  .hero-page {
+    min-height: 62vh;
+  }
+
   .top-nav {
     padding: 16px 20px;
   }
@@ -204,13 +208,13 @@ body {
   }
 
   .hero-content {
-    padding-top: 84px;
+    padding-top: 74px;
     max-width: 680px;
   }
 
   .hero-subtitle {
-    margin-top: 26px;
-    font-size: clamp(17px, 2vw, 20px);
+    margin-top: 16px;
+    font-size: clamp(20px, 2.5vw, 24px);
     max-width: 520px;
   }
 }
@@ -250,7 +254,7 @@ body {
   }
 
   .hero-content {
-    padding-top: 82px;
+    padding-top: 34px;
     padding-bottom: 20px;
     padding-left: 16px;
     padding-right: 16px;
@@ -258,8 +262,8 @@ body {
   }
 
   .hero-subtitle {
-    margin-top: 22px;
-    font-size: 15px;
+    margin-top: 18px;
+    font-size: 18px;
     line-height: 1.5;
     max-width: 92%;
   }
@@ -293,7 +297,7 @@ body {
   }
 
   .hero-content {
-    padding-top: 70px;
+    padding-top: 30px;
     padding-bottom: 16px;
   }
 
@@ -305,11 +309,27 @@ body {
   }
 
   .hero-subtitle {
-    font-size: 14px;
+    margin-top: 16px;
+    font-size: 17px;
     max-width: 100%;
   }
 
   .hero-subtitle br {
     display: none;
   }
+}
+
+/* ── Button arrow hover (shared) ── */
+.btn-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.start-project:hover .btn-arrow,
+.video-work-with-us:hover .btn-arrow,
+.second-link:hover .btn-arrow,
+.section-three-cta:hover .btn-arrow,
+.cases-cta:hover .btn-arrow,
+.section-contact-cta:hover .btn-arrow {
+  transform: translate(2px, -2px);
 }

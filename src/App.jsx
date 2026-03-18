@@ -1,13 +1,44 @@
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Monitor, Pencil, Target, TrendingUp, Users } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Monitor, Pencil, Rocket, Target, TrendingUp, Users } from 'lucide-react';
 import heroVideo from '../Mockaps/Video for website.mp4';
 import sectionThreeAiSolutionsImage from '../Mockaps/Photo 2.jpeg';
 import sectionThreeWebPlatformsImage from '../Mockaps/Photo 3.jpeg';
+import teamPhoto1 from '../Mockaps/Photo 2.jpeg';
+import teamPhoto2 from '../Mockaps/Photo 3.jpeg';
+import teamPhoto3 from '../Mockaps/Photo 4.jpeg';
 import brandLogo from './assets/logo-main.png';
 import sectionThreeMobileAppImage from './assets/section-three-mobile-app-v2.png';
 import sectionThreeStartupProductsImage from './assets/section-three-startup-products.png';
 import './second-page.css';
+
+function StatCounter({ endValue, suffix, delay = 0 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let controls;
+    const timer = setTimeout(() => {
+      controls = animate(0, endValue, {
+        duration: 1,
+        ease: [0.22, 0.61, 0.36, 1],
+        onUpdate: (v) => setDisplayValue(Math.round(v)),
+      });
+    }, delay * 1000);
+    return () => {
+      clearTimeout(timer);
+      controls?.stop();
+    };
+  }, [isInView, endValue, delay]);
+
+  return (
+    <span ref={ref} className="team-stat-value">
+      {displayValue}{suffix}
+    </span>
+  );
+}
 
 const ROTATING_LINES = [
   'World Class Apps',
@@ -85,16 +116,67 @@ const SOLUTIONS = [
   },
 ];
 
+const CASES = [
+  { id: '1', title: 'Health App', subtitle: 'Seamless health management', image: sectionThreeMobileAppImage },
+  { id: '2', title: 'Care Platform', subtitle: 'Connected care experience', image: sectionThreeWebPlatformsImage },
+  { id: '3', title: 'Startup MVP', subtitle: 'From idea to launch', image: sectionThreeStartupProductsImage },
+  { id: '4', title: 'AI Product', subtitle: 'Intelligent workflows', image: sectionThreeAiSolutionsImage },
+];
+
+const TEAM = [
+  { id: '1', image: teamPhoto1, quote: 'Building products that matter.', name: 'Alex Chen', position: 'CEO & Founder' },
+  { id: '2', image: teamPhoto2, quote: 'Design drives innovation.', name: 'Maria Santos', position: 'Head of Design' },
+  { id: '3', image: teamPhoto3, quote: 'Technology meets human needs.', name: 'James Wright', position: 'CTO' },
+];
+
 export default function App() {
   const [index, setIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(0);
   const [activePoint, setActivePoint] = useState(0);
+  const [casesCanScrollLeft, setCasesCanScrollLeft] = useState(false);
+  const [casesCanScrollRight, setCasesCanScrollRight] = useState(true);
+  const [teamCanScrollLeft, setTeamCanScrollLeft] = useState(false);
+  const [teamCanScrollRight, setTeamCanScrollRight] = useState(true);
+  const casesScrollRef = useRef(null);
+  const teamScrollRef = useRef(null);
+
+  const updateTeamScrollState = () => {
+    const el = teamScrollRef.current;
+    if (!el) return;
+    setTeamCanScrollLeft(el.scrollLeft > 4);
+    setTeamCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  const updateCasesScrollState = () => {
+    const el = casesScrollRef.current;
+    if (!el) return;
+    setCasesCanScrollLeft(el.scrollLeft > 4);
+    setCasesCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
 
   useEffect(() => {
     const id = setInterval(() => {
       setIndex((current) => (current + 1) % ROTATING_LINES.length);
     }, 2400);
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const el = casesScrollRef.current;
+    if (!el) return;
+    updateCasesScrollState();
+    const ro = new ResizeObserver(updateCasesScrollState);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = teamScrollRef.current;
+    if (!el) return;
+    updateTeamScrollState();
+    const ro = new ResizeObserver(updateTeamScrollState);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   return (
@@ -149,7 +231,7 @@ export default function App() {
         <div className="top-nav-right profile-actions">
           <a className="start-project profile-start" href="#video-section">
             Start a project
-            <span aria-hidden="true">↗</span>
+            <span className="btn-arrow" aria-hidden="true">↗</span>
           </a>
           <button className="menu-btn" type="button" aria-label="Menu">
             <span />
@@ -200,27 +282,66 @@ export default function App() {
               <source src={heroVideo} type="video/mp4" />
             </video>
             <button className="video-work-with-us second-video-cta" type="button">
-              Work with us <span aria-hidden="true">↗</span>
+              Work with us <span className="btn-arrow" aria-hidden="true">↗</span>
             </button>
           </div>
         </div>
 
         <div className="second-copy-col">
-          <p className="second-lead">
-            Turning your ideas into innovative digital products from concept to launch. We
-            design, build and launch digital products.
-          </p>
-          <ul className="second-services">
-            {SERVICES.map(({ label, Icon }) => (
-              <li key={label}>
-                <Icon className="second-service-icon" aria-hidden="true" />
-                <span>{label}</span>
-              </li>
-            ))}
-          </ul>
-          <a href="#" className="second-link">
-            View all services <span aria-hidden="true">↗</span>
-          </a>
+          <motion.div
+            className="second-copy-col-inner"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.2, delayChildren: 0.25 } },
+              hidden: {},
+            }}
+          >
+            <motion.p
+              className="second-lead"
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              We turn ambitious ideas into innovative digital products from concept to launch{' '}
+              <Rocket className="second-lead-icon" aria-hidden="true" />
+            </motion.p>
+            <motion.ul
+              className="second-services"
+              variants={{
+                visible: { transition: { staggerChildren: 0.14, delayChildren: 0.25 } },
+                hidden: {},
+              }}
+            >
+              {SERVICES.map(({ label, Icon }) => (
+                <motion.li
+                  key={label}
+                  variants={{
+                    hidden: { opacity: 0, y: 18 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1] }}
+                >
+                  <Icon className="second-service-icon" aria-hidden="true" />
+                  <span>{label}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+            <motion.a
+              href="#"
+              className="second-link"
+              variants={{
+                hidden: { opacity: 0, y: 18 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.95, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              View all services <span className="btn-arrow" aria-hidden="true">↗</span>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -343,9 +464,187 @@ export default function App() {
             </div>
           </div>
         </div>
-        <button type="button" className="section-three-cta">
-          All services <span aria-hidden="true">↗</span>
-        </button>
+        <div className="section-three-cta-wrap">
+          <button type="button" className="section-three-cta">
+            All services <span className="btn-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="cases" className="section-cases">
+      <div className="cases-inner">
+        <div className="cases-left">
+          <h2 className="cases-headline">Products We Have Built</h2>
+          <p className="cases-description">
+            Explore digital products and platforms created by Integrior.
+          </p>
+          <a href="#" className="cases-cta">
+            View All <span className="btn-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div className="cases-right">
+          <div
+            className="cases-carousel"
+            ref={casesScrollRef}
+            onScroll={updateCasesScrollState}
+          >
+            {CASES.map((item, i) => (
+              <article key={item.id} className={`cases-card${i === 0 ? ' cases-card-first' : ''}`}>
+                <div className="cases-card-image-wrap">
+                  <img src={item.image} alt={item.subtitle} loading="lazy" className="cases-card-image" />
+                </div>
+                <div className="cases-card-info">
+                  <span className="cases-card-title">{item.title}</span>
+                  <h3 className="cases-card-subtitle">{item.subtitle}</h3>
+                </div>
+              </article>
+            ))}
+          </div>
+          {casesCanScrollLeft && (
+            <button
+              type="button"
+              className="cases-scroll-btn cases-scroll-btn-prev"
+              aria-label="Scroll carousel back"
+              onClick={() => {
+                if (casesScrollRef.current) {
+                  casesScrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowLeft aria-hidden="true" />
+            </button>
+          )}
+          {casesCanScrollRight && (
+            <button
+              type="button"
+              className="cases-scroll-btn cases-scroll-btn-next"
+              aria-label="Scroll carousel forward"
+              onClick={() => {
+                if (casesScrollRef.current) {
+                  casesScrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowRight aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section id="team" className="section-team">
+      <div className="team-inner">
+        <div className="team-left">
+          <p className="team-eyebrow">Where we've been</p>
+          <h2 className="team-title">We take pride in delivering high quality solutions that consistently exceed expectations.</h2>
+          <motion.div
+            className="team-stats"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.28, delayChildren: 0.35 } },
+              hidden: {},
+            }}
+          >
+            <motion.div
+              className="team-stat"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.85, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              <StatCounter endValue={6} suffix="+ years" delay={0.35} />
+              <span className="team-stat-desc">Agency history</span>
+            </motion.div>
+            <motion.div
+              className="team-stat"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.85, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              <StatCounter endValue={51} suffix="+" delay={0.63} />
+              <span className="team-stat-label">Projects delivered</span>
+            </motion.div>
+            <motion.div
+              className="team-stat"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.85, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              <StatCounter endValue={10} suffix="+" delay={0.91} />
+              <span className="team-stat-label">Rockstar staff</span>
+            </motion.div>
+          </motion.div>
+        </div>
+        <div className="team-right">
+          <div
+            className="team-carousel"
+            ref={teamScrollRef}
+            onScroll={updateTeamScrollState}
+          >
+            {TEAM.map((member) => (
+              <article key={member.id} className="team-card">
+                <div className="team-card-image-wrap">
+                  <img src={member.image} alt={member.name} loading="lazy" className="team-card-image" />
+                </div>
+                <div className="team-card-info">
+                  <blockquote className="team-card-quote">"{member.quote}"</blockquote>
+                  <p className="team-card-name">{member.name}</p>
+                  <p className="team-card-position">{member.position}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          {teamCanScrollLeft && (
+            <button
+              type="button"
+              className="team-scroll-btn team-scroll-btn-prev"
+              aria-label="Previous team member"
+              onClick={() => {
+                if (teamScrollRef.current) {
+                  const w = teamScrollRef.current.clientWidth;
+                  const amount = w < 500 ? w : 320;
+                  teamScrollRef.current.scrollBy({ left: -amount, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowLeft aria-hidden="true" />
+            </button>
+          )}
+          {teamCanScrollRight && (
+            <button
+              type="button"
+              className="team-scroll-btn team-scroll-btn-next"
+              aria-label="Next team member"
+              onClick={() => {
+                if (teamScrollRef.current) {
+                  const w = teamScrollRef.current.clientWidth;
+                  const amount = w < 500 ? w : 320;
+                  teamScrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowRight aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" className="section-contact">
+      <div className="section-contact-inner">
+        <p className="section-contact-eyebrow">Let's talk —</p>
+        <h2 className="section-contact-title">We'd love to hear about your project</h2>
+        <a href="#" className="section-contact-cta">
+          Start a Project <span className="btn-arrow" aria-hidden="true">↗</span>
+        </a>
       </div>
     </section>
     </>
