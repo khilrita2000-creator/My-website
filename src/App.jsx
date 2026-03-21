@@ -313,8 +313,8 @@ export default function App() {
               }}
               transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              We turn ambitious ideas into innovative digital products from concept to launch{' '}
-              <Rocket className="second-lead-icon" aria-hidden="true" />
+              We turn ambitious ideas into innovative digital products from concept to{' '}
+              <span style={{ whiteSpace: 'nowrap' }}>launch <Rocket className="second-lead-icon" aria-hidden="true" /></span>
             </motion.p>
             <motion.ul
               className="second-services"
@@ -515,7 +515,11 @@ export default function App() {
               aria-label="Scroll carousel back"
               onClick={() => {
                 if (casesScrollRef.current) {
-                  casesScrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+                  const el = casesScrollRef.current;
+                  const card = el.querySelector('.cases-card');
+                  const gap = parseFloat(getComputedStyle(el).gap) || 24;
+                  const amount = card ? card.offsetWidth + gap : 344;
+                  el.scrollBy({ left: -amount, behavior: 'smooth' });
                 }
               }}
             >
@@ -529,7 +533,11 @@ export default function App() {
               aria-label="Scroll carousel forward"
               onClick={() => {
                 if (casesScrollRef.current) {
-                  casesScrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+                  const el = casesScrollRef.current;
+                  const card = el.querySelector('.cases-card');
+                  const gap = parseFloat(getComputedStyle(el).gap) || 24;
+                  const amount = card ? card.offsetWidth + gap : 344;
+                  el.scrollBy({ left: amount, behavior: 'smooth' });
                 }
               }}
             >
