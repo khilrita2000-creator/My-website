@@ -7,6 +7,10 @@ import sectionThreeWebPlatformsImage from '../Mockaps/Photo 3.jpeg';
 import teamPhoto1 from '../Mockaps/Khil-Margarita.png';
 import brandLogo from './assets/logo-main.png';
 import sectionThreeMobileAppImage from './assets/section-three-mobile-app-v2.png';
+import wizverseImage from '../Mockaps/Wizverse.png';
+import meditationAppImage from '../Mockaps/App.png';
+import fashionAppImage from '../Mockaps/Fashion.png';
+import musicPlatformImage from '../Mockaps/Music New.png';
 import sectionThreeStartupProductsImage from './assets/section-three-startup-products.png';
 import './second-page.css';
 
@@ -115,10 +119,10 @@ const SOLUTIONS = [
 ];
 
 const CASES = [
-  { id: '1', title: 'Health App', subtitle: 'Seamless health management', image: sectionThreeMobileAppImage },
-  { id: '2', title: 'Care Platform', subtitle: 'Connected care experience', image: sectionThreeWebPlatformsImage },
-  { id: '3', title: 'Startup MVP', subtitle: 'From idea to launch', image: sectionThreeStartupProductsImage },
-  { id: '4', title: 'AI Product', subtitle: 'Intelligent workflows', image: sectionThreeAiSolutionsImage },
+  { id: '1', title: 'Wizverse Game', subtitle: 'Immersive gaming experience', image: wizverseImage },
+  { id: '2', title: 'Meditation App', subtitle: 'Advancing mental wellness', image: meditationAppImage },
+  { id: '3', title: 'Fashion App', subtitle: 'Luxury fashion shopping experience', image: fashionAppImage },
+  { id: '4', title: 'Music Web Platform', subtitle: 'AI-powered music creation platform', image: musicPlatformImage },
 ];
 
 const TEAM = [
