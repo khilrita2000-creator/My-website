@@ -4,9 +4,7 @@ import { ArrowLeft, ArrowRight, Monitor, Pencil, Rocket, Target, TrendingUp, Use
 import heroVideo from '../Mockaps/Video for website.mp4';
 import sectionThreeAiSolutionsImage from '../Mockaps/Photo 2.jpeg';
 import sectionThreeWebPlatformsImage from '../Mockaps/Photo 3.jpeg';
-import teamPhoto1 from '../Mockaps/Photo 2.jpeg';
-import teamPhoto2 from '../Mockaps/Photo 3.jpeg';
-import teamPhoto3 from '../Mockaps/Photo 4.jpeg';
+import teamPhoto1 from '../Mockaps/Khil-Margarita.png';
 import brandLogo from './assets/logo-main.png';
 import sectionThreeMobileAppImage from './assets/section-three-mobile-app-v2.png';
 import sectionThreeStartupProductsImage from './assets/section-three-startup-products.png';
@@ -124,9 +122,14 @@ const CASES = [
 ];
 
 const TEAM = [
-  { id: '1', image: teamPhoto1, quote: 'Building products that matter.', name: 'Alex Chen', position: 'CEO & Founder' },
-  { id: '2', image: teamPhoto2, quote: 'Design drives innovation.', name: 'Maria Santos', position: 'Head of Design' },
-  { id: '3', image: teamPhoto3, quote: 'Technology meets human needs.', name: 'James Wright', position: 'CTO' },
+  {
+    id: '1',
+    image: teamPhoto1,
+    quote:
+      "Building Integrior is about creating products that genuinely solve real problems, not just look good. We focus on clarity, strategy, and thoughtful execution to deliver real impact and measurable business results. The goal is simple. Build products that drive growth and create lasting value.",
+    name: 'Khil Margarita',
+    position: 'CEO & Founder',
+  },
 ];
 
 export default function App() {
@@ -203,7 +206,7 @@ export default function App() {
 
         <div
           className="logo-mark"
-          aria-label="Utility logo"
+          aria-label="Integrior logo"
           style={{
             width: 56,
             height: 56,
