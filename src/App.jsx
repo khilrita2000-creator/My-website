@@ -1,6 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Monitor, Pencil, Rocket, Target, TrendingUp, Users } from 'lucide-react';
+import {
+  Activity,
+  Apple,
+  ArrowLeft,
+  ArrowRight,
+  BarChart3,
+  ClipboardList,
+  Headphones,
+  Layers,
+  LayoutTemplate,
+  Lightbulb,
+  ListOrdered,
+  Monitor,
+  Package,
+  Paintbrush,
+  Palette,
+  Pencil,
+  Rocket,
+  Smartphone,
+  Tag,
+  Target,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
 import heroVideo from '../Mockaps/Video for website.mp4';
 import sectionThreeAiSolutionsImage from '../Mockaps/Photo 2.jpeg';
 import sectionThreeWebPlatformsImage from '../Mockaps/Photo 3.jpeg';
@@ -10,8 +33,13 @@ import sectionThreeMobileAppImage from './assets/section-three-mobile-app-v2.png
 import wizverseImage from '../Mockaps/Wizverse.png';
 import meditationAppImage from '../Mockaps/App.png';
 import fashionAppImage from '../Mockaps/Fashion.png';
-import musicPlatformImage from '../Mockaps/Music New.png';
+import fitnessAppCaseImage from '../Mockaps/Fitness App.png';
 import sectionThreeStartupProductsImage from './assets/section-three-startup-products.png';
+import partnerLogo1 from './assets/partner-logo-1.png';
+import partnerLogo2 from './assets/partner-logo-2.png';
+import partnerLogo3 from './assets/partner-logo-3.png';
+import partnerLogo4 from './assets/partner-logo-4.png';
+import partnerLogo5 from './assets/partner-logo-5.png';
 import './second-page.css';
 
 function StatCounter({ endValue, suffix, delay = 0 }) {
@@ -118,11 +146,19 @@ const SOLUTIONS = [
   },
 ];
 
+const PARTNER_LOGOS = [
+  { id: 'p1', src: partnerLogo1 },
+  { id: 'p2', src: partnerLogo2 },
+  { id: 'p3', src: partnerLogo3 },
+  { id: 'p4', src: partnerLogo4 },
+  { id: 'p5', src: partnerLogo5 },
+];
+
 const CASES = [
   { id: '1', title: 'Wizverse Game', subtitle: 'Immersive gaming experience', image: wizverseImage },
   { id: '2', title: 'Meditation App', subtitle: 'Advancing mental wellness', image: meditationAppImage },
   { id: '3', title: 'Fashion App', subtitle: 'Luxury fashion shopping experience', image: fashionAppImage },
-  { id: '4', title: 'Music Web Platform', subtitle: 'AI-powered music creation platform', image: musicPlatformImage },
+  { id: '4', title: 'Fitness App', subtitle: 'Personalized workouts and meal plans', image: fitnessAppCaseImage },
 ];
 
 const TEAM = [
@@ -136,6 +172,82 @@ const TEAM = [
   },
 ];
 
+const SDLC_EASE = [0.22, 0.61, 0.36, 1];
+
+const CYCLE_TAG_ICONS = {
+  'Product Audit': ClipboardList,
+  'System Design': Layers,
+  'Backlog Scoping': ListOrdered,
+  'Product Discovery': Lightbulb,
+  'Market Research': BarChart3,
+  'Customer Development': Users,
+  'Value Proposition Canvas': LayoutTemplate,
+  'UX & UI Design': Palette,
+  'Analytics Setup': Activity,
+  'iOS App Development': Apple,
+  'Android App Development': Smartphone,
+  'Mobile App SDK Development': Package,
+  'App Store Optimization (ASO)': TrendingUp,
+  'Application Support': Headphones,
+  'Mobile App Redesign': Paintbrush,
+  'Growth Strategy': Rocket,
+};
+
+const SDLC_PHASES = [
+  {
+    roadmapStep: 1,
+    title: 'Research & Preparation',
+    description:
+      'We define the problem space by analyzing the current product state, business goals, and constraints. This stage ensures alignment and sets a clear foundation for decision-making.',
+    tags: ['Product Audit', 'System Design', 'Backlog Scoping'],
+  },
+  {
+    roadmapStep: 2,
+    title: 'Discovery & Design',
+    description:
+      'We translate insights into validated product concepts and design user-centric solutions. The focus is on defining a clear value proposition and intuitive user experience.',
+    tags: ['Product Discovery', 'Market Research', 'Customer Development', 'Value Proposition Canvas'],
+  },
+  {
+    roadmapStep: 2,
+    title: 'User Journey & Analytics',
+    description:
+      'We design user flows and implement analytics to track key interactions, measure performance, and identify opportunities for optimization.',
+    tags: ['UX & UI Design', 'Analytics Setup'],
+  },
+  {
+    roadmapStep: 2,
+    title: 'Software Development',
+    description:
+      'We build scalable and reliable product solutions, ensuring seamless integration and high quality through testing and controlled releases.',
+    tags: ['iOS App Development', 'Android App Development', 'Mobile App SDK Development'],
+  },
+  {
+    roadmapStep: 3,
+    title: 'Product Scaling',
+    description:
+      'We continuously iterate based on data, user feedback, and business objectives, focusing on sustainable growth and performance improvement.',
+    tags: ['App Store Optimization (ASO)', 'Application Support', 'Mobile App Redesign', 'Growth Strategy'],
+  },
+];
+
+const SDLC_ROADMAP_GROUPS = [1, 2, 3].map((step) => ({
+  step,
+  phases: SDLC_PHASES.filter((p) => p.roadmapStep === step),
+}));
+
+const CALENDLY_BOOK_URL = 'https://calendly.com/khilrita2000/30min';
+
+const HEADER_DRAWER_LINKS = [
+  { label: 'Our Company', href: '#team' },
+  { label: 'Our Expertise', href: '#section-three' },
+  { label: 'Our Work', href: '#cases' },
+  { label: 'Partners', href: '#partners' },
+  { label: 'Our process', href: '#cycle' },
+  { label: 'Contact', href: '#contact' },
+  { label: 'Start a project', href: CALENDLY_BOOK_URL, external: true },
+];
+
 export default function App() {
   const [index, setIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(0);
@@ -144,8 +256,69 @@ export default function App() {
   const [casesCanScrollRight, setCasesCanScrollRight] = useState(true);
   const [teamCanScrollLeft, setTeamCanScrollLeft] = useState(false);
   const [teamCanScrollRight, setTeamCanScrollRight] = useState(true);
+  const [cycleCanScrollLeft, setCycleCanScrollLeft] = useState(false);
+  const [cycleCanScrollRight, setCycleCanScrollRight] = useState(true);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [contactSent, setContactSent] = useState(false);
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+  const [contactError, setContactError] = useState(null);
+  const [navMenuOpen, setNavMenuOpen] = useState(false);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollYRef = useRef(0);
   const casesScrollRef = useRef(null);
   const teamScrollRef = useRef(null);
+  const cycleScrollRef = useRef(null);
+
+  const formspreeFormId = import.meta.env.VITE_FORMSPREE_FORM_ID || 'mdappqkg';
+
+  const handleContactChange = (field) => (e) => {
+    setContactForm((prev) => ({ ...prev, [field]: e.target.value }));
+    setContactError(null);
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setContactError(null);
+
+    if (!formspreeFormId?.trim()) {
+      setContactError(
+        'Form is not connected yet. Add VITE_FORMSPREE_FORM_ID to your .env file (see Formspree dashboard).',
+      );
+      return;
+    }
+
+    setContactSubmitting(true);
+    try {
+      const res = await fetch(`https://formspree.io/f/${formspreeFormId.trim()}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone || '—',
+          message: contactForm.message,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || `Request failed (${res.status})`);
+      }
+      setContactSent(true);
+    } catch (err) {
+      setContactError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setContactSubmitting(false);
+    }
+  };
 
   const updateTeamScrollState = () => {
     const el = teamScrollRef.current;
@@ -159,6 +332,13 @@ export default function App() {
     if (!el) return;
     setCasesCanScrollLeft(el.scrollLeft > 4);
     setCasesCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  const updateCycleScrollState = () => {
+    const el = cycleScrollRef.current;
+    if (!el) return;
+    setCycleCanScrollLeft(el.scrollLeft > 4);
+    setCycleCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
   };
 
   useEffect(() => {
@@ -186,8 +366,124 @@ export default function App() {
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = cycleScrollRef.current;
+    if (!el) return;
+    updateCycleScrollState();
+    const ro = new ResizeObserver(updateCycleScrollState);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!navMenuOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setNavMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [navMenuOpen]);
+
+  useEffect(() => {
+    const topThreshold = 24;
+    const directionThreshold = 6;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      const last = lastScrollYRef.current;
+      const delta = y - last;
+      lastScrollYRef.current = y;
+
+      setHeaderScrolled(y > topThreshold);
+
+      if (navMenuOpen) return;
+
+      if (y <= topThreshold) {
+        setHeaderHidden(false);
+        return;
+      }
+
+      if (delta > directionThreshold) {
+        setHeaderHidden(true);
+      } else if (delta < -directionThreshold) {
+        setHeaderHidden(false);
+      }
+    };
+
+    lastScrollYRef.current = window.scrollY;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [navMenuOpen]);
+
   return (
     <>
+    <header
+      className={`top-nav profile-header${navMenuOpen ? ' profile-header--menu-open' : ''}${headerScrolled ? ' profile-header--scrolled' : ''}${headerHidden && !navMenuOpen ? ' profile-header--hidden' : ''}`}
+    >
+      <nav className="top-nav-left profile-links" aria-label="Primary">
+        <a href="#team">Our Company</a>
+        <a href="#section-three">Our Expertise</a>
+        <a href="#cases">Our Work</a>
+      </nav>
+
+      <div
+        className="logo-mark"
+        aria-label="Integrior logo"
+        style={{
+          width: 56,
+          height: 56,
+          overflow: 'visible',
+          borderRadius: 0,
+          background: 'transparent',
+          zIndex: 4,
+        }}
+      >
+        <img
+          src={brandLogo}
+          alt="Integrior logo"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            transform: 'none',
+            mixBlendMode: 'normal',
+            filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.35))',
+          }}
+        />
+      </div>
+
+      <div className="top-nav-right profile-actions">
+        <a
+          className="start-project profile-start"
+          href={CALENDLY_BOOK_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Start a project
+          <span className="btn-arrow" aria-hidden="true">↗</span>
+        </a>
+        <button
+          type="button"
+          className={`menu-btn${navMenuOpen ? ' menu-btn--open' : ''}`}
+          aria-expanded={navMenuOpen}
+          aria-controls="site-nav-drawer"
+          aria-label={navMenuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setNavMenuOpen((o) => !o)}
+        >
+          <span />
+          <span />
+        </button>
+      </div>
+    </header>
+
+    <div className="site-main">
     <section id="into-section" className="hero-page into-section">
       <div className="hero-bg" aria-hidden="true">
         <svg className="hero-bg-svg" viewBox="0 0 1024 362" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,52 +496,6 @@ export default function App() {
           <path d="M 610 202 C 610 292 684 362 774 362" className="geo-curve" />
         </svg>
       </div>
-
-      <header className="top-nav profile-header">
-        <nav className="top-nav-left profile-links" aria-label="Primary">
-          <a href="#">Our Company</a>
-          <a href="#">Our Expertise</a>
-          <a href="#">Our Work</a>
-        </nav>
-
-        <div
-          className="logo-mark"
-          aria-label="Integrior logo"
-          style={{
-            width: 56,
-            height: 56,
-            overflow: 'visible',
-            borderRadius: 0,
-            background: 'transparent',
-            zIndex: 4,
-          }}
-        >
-          <img
-            src={brandLogo}
-            alt="Integrior logo"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              objectPosition: 'center',
-              transform: 'none',
-              mixBlendMode: 'normal',
-              filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.35))',
-            }}
-          />
-        </div>
-
-        <div className="top-nav-right profile-actions">
-          <a className="start-project profile-start" href="#video-section">
-            Start a project
-            <span className="btn-arrow" aria-hidden="true">↗</span>
-          </a>
-          <button className="menu-btn" type="button" aria-label="Menu">
-            <span />
-            <span />
-          </button>
-        </div>
-      </header>
 
       <main className="hero-content">
         <h1 className="hero-title">
@@ -288,9 +538,14 @@ export default function App() {
             <video className="second-video" autoPlay muted loop playsInline>
               <source src={heroVideo} type="video/mp4" />
             </video>
-            <button className="video-work-with-us second-video-cta" type="button">
-              Work with us <span className="btn-arrow" aria-hidden="true">↗</span>
-            </button>
+            <a
+              className="video-work-with-us second-video-cta"
+              href={CALENDLY_BOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book consultation <span className="btn-arrow" aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
 
@@ -338,19 +593,43 @@ export default function App() {
               ))}
             </motion.ul>
             <motion.a
-              href="#"
+              href={CALENDLY_BOOK_URL}
               className="second-link"
+              target="_blank"
+              rel="noopener noreferrer"
               variants={{
                 hidden: { opacity: 0, y: 18 },
                 visible: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.95, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              View all services <span className="btn-arrow" aria-hidden="true">↗</span>
+              Book consultation <span className="btn-arrow" aria-hidden="true">↗</span>
             </motion.a>
           </motion.div>
         </div>
       </div>
+
+      <section id="partners" className="section-partners section-partners--second" aria-labelledby="partners-heading">
+        <div className="section-partners-inner">
+          <p className="section-partners-eyebrow">Partners</p>
+          <h2 id="partners-heading" className="section-partners-title">
+            Partners Along the Way
+          </h2>
+          <div
+            className="partners-marquee"
+            role="region"
+            aria-label="Partner logos"
+          >
+            <div className="partners-marquee-track">
+              {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map(({ id, src }, i) => (
+                <div key={`${id}-${i}`} className="partners-logo-wrap">
+                  <img className="partners-logo" src={src} alt="" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
     <section id="section-three" className="section-three">
       <div className="section-three-inner">
@@ -472,9 +751,14 @@ export default function App() {
           </div>
         </div>
         <div className="section-three-cta-wrap">
-          <button type="button" className="section-three-cta">
-            All services <span className="btn-arrow" aria-hidden="true">↗</span>
-          </button>
+          <a
+            href={CALENDLY_BOOK_URL}
+            className="section-three-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Book consultation <span className="btn-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
     </section>
@@ -486,9 +770,6 @@ export default function App() {
           <p className="cases-description">
             Explore digital products and platforms created by Integrior.
           </p>
-          <a href="#" className="cases-cta">
-            View All <span className="btn-arrow" aria-hidden="true">↗</span>
-          </a>
         </div>
         <div className="cases-right">
           <div
@@ -546,6 +827,142 @@ export default function App() {
           )}
         </div>
       </div>
+    </section>
+
+    <section id="cycle" className="section-cycle" aria-labelledby="cycle-heading">
+      <motion.div
+        className="section-cycle-inner"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.12, margin: '0px 0px -8% 0px' }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.14,
+              delayChildren: 0.02,
+            },
+          },
+        }}
+      >
+        <motion.h2
+          id="cycle-heading"
+          className="section-cycle-title"
+          variants={{
+            hidden: { opacity: 0, y: 22 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.55, ease: SDLC_EASE }}
+        >
+          Our software development life cycle
+        </motion.h2>
+        <motion.p
+          className="section-cycle-lead"
+          variants={{
+            hidden: { opacity: 0, y: 16 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.48, ease: SDLC_EASE }}
+        >
+          A structured, end-to-end approach to building and scaling digital products.
+        </motion.p>
+        <div className="section-cycle-carousel-wrap">
+          <motion.div
+            ref={cycleScrollRef}
+            className="section-cycle-cards"
+            onScroll={updateCycleScrollState}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.2,
+                  delayChildren: 0,
+                },
+              },
+            }}
+          >
+            {SDLC_ROADMAP_GROUPS.map((group) => (
+              <motion.div
+                key={group.step}
+                className={`cycle-cards-group cycle-cards-group--step-${group.step}`}
+                role="group"
+                aria-labelledby="cycle-heading"
+                variants={{
+                  hidden: {},
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.12,
+                    },
+                  },
+                }}
+              >
+                {group.phases.map((phase) => (
+                  <motion.article
+                    key={phase.title}
+                    className="cycle-card"
+                    variants={{
+                      hidden: { opacity: 0, x: -32 },
+                      visible: { opacity: 1, x: 0 },
+                    }}
+                    transition={{ duration: 0.52, ease: SDLC_EASE }}
+                  >
+                    <h3 className="cycle-card-title">{phase.title}</h3>
+                    <p className="cycle-card-desc">{phase.description}</p>
+                    <ul className="cycle-tags" aria-label={`${phase.title} focus areas`}>
+                      {phase.tags.map((tag) => {
+                        const Icon = CYCLE_TAG_ICONS[tag] ?? Tag;
+                        return (
+                          <li key={tag} className="cycle-tag">
+                            <Icon className="cycle-tag-icon" aria-hidden="true" strokeWidth={2} />
+                            <span className="cycle-tag-label">{tag}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </motion.article>
+                ))}
+              </motion.div>
+            ))}
+          </motion.div>
+          {cycleCanScrollLeft && (
+            <button
+              type="button"
+              className="cycle-scroll-btn cycle-scroll-btn-prev"
+              aria-label="Scroll phases back"
+              onClick={() => {
+                if (cycleScrollRef.current) {
+                  const el = cycleScrollRef.current;
+                  const card = el.querySelector('.cycle-card');
+                  const gap = parseFloat(getComputedStyle(el).gap) || 16;
+                  const amount = card ? card.offsetWidth + gap : 280;
+                  el.scrollBy({ left: -amount, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowLeft aria-hidden="true" />
+            </button>
+          )}
+          {cycleCanScrollRight && (
+            <button
+              type="button"
+              className="cycle-scroll-btn cycle-scroll-btn-next"
+              aria-label="Scroll phases forward"
+              onClick={() => {
+                if (cycleScrollRef.current) {
+                  const el = cycleScrollRef.current;
+                  const card = el.querySelector('.cycle-card');
+                  const gap = parseFloat(getComputedStyle(el).gap) || 16;
+                  const amount = card ? card.offsetWidth + gap : 280;
+                  el.scrollBy({ left: amount, behavior: 'smooth' });
+                }
+              }}
+            >
+              <ArrowRight aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      </motion.div>
     </section>
 
     <section id="team" className="section-team">
@@ -653,15 +1070,159 @@ export default function App() {
       </div>
     </section>
 
-    <section id="contact" className="section-contact">
+    <section id="contact" className="section-contact" aria-labelledby="contact-heading">
       <div className="section-contact-inner">
-        <p className="section-contact-eyebrow">Let's talk —</p>
-        <h2 className="section-contact-title">We'd love to hear about your project</h2>
-        <a href="#" className="section-contact-cta">
-          Start a Project <span className="btn-arrow" aria-hidden="true">↗</span>
-        </a>
+        <span className="section-contact-badge">Free consultation</span>
+        <h2 id="contact-heading" className="section-contact-title">
+          Let&apos;s build your product together
+        </h2>
+        <p className="section-contact-lead">
+          Tell us about your idea and we&apos;ll get back within 24 hours
+        </p>
+
+        {contactSent ? (
+          <p className="section-contact-thanks" role="status">
+            Thank you — we&apos;ll reach out shortly.
+          </p>
+        ) : (
+          <form className="section-contact-form" onSubmit={handleContactSubmit}>
+            <div className="section-contact-grid">
+              <label className="section-contact-field">
+                <span className="section-contact-label">
+                  Name{' '}
+                  <abbr className="section-contact-star" title="required">
+                    *
+                  </abbr>
+                </span>
+                <input
+                  className="section-contact-input"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  aria-required="true"
+                  value={contactForm.name}
+                  onChange={handleContactChange('name')}
+                />
+              </label>
+              <label className="section-contact-field">
+                <span className="section-contact-label">
+                  Email{' '}
+                  <abbr className="section-contact-star" title="required">
+                    *
+                  </abbr>
+                </span>
+                <input
+                  className="section-contact-input"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  aria-required="true"
+                  value={contactForm.email}
+                  onChange={handleContactChange('email')}
+                />
+              </label>
+            </div>
+            <label className="section-contact-field">
+              <span className="section-contact-label">Phone number</span>
+              <input
+                className="section-contact-input"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                placeholder="+1 (555) 000-0000"
+                value={contactForm.phone}
+                onChange={handleContactChange('phone')}
+              />
+            </label>
+            <label className="section-contact-field">
+              <span className="section-contact-label">
+                Message / Project description{' '}
+                <abbr className="section-contact-star" title="required">
+                  *
+                </abbr>
+              </span>
+              <textarea
+                className="section-contact-textarea"
+                name="message"
+                rows={5}
+                required
+                aria-required="true"
+                value={contactForm.message}
+                onChange={handleContactChange('message')}
+              />
+            </label>
+            {contactError ? (
+              <p className="section-contact-error" role="alert">
+                {contactError}
+              </p>
+            ) : null}
+            <button
+              type="submit"
+              className="section-contact-submit"
+              disabled={contactSubmitting}
+            >
+              {contactSubmitting ? 'Sending…' : 'Submit'}
+            </button>
+          </form>
+        )}
       </div>
     </section>
+
+    </div>
+
+    <AnimatePresence>
+      {navMenuOpen
+        ? [
+            <motion.div
+              key="nav-backdrop"
+              className="nav-menu-backdrop"
+              role="presentation"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setNavMenuOpen(false)}
+            />,
+            <motion.nav
+              key="nav-panel"
+              id="site-nav-drawer"
+              className="nav-menu-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site sections"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              <p className="nav-menu-panel-title">Menu</p>
+              <ul className="nav-menu-list">
+                {HEADER_DRAWER_LINKS.map(({ label, href, external }) => (
+                  <li key={label}>
+                    <a
+                      className="nav-menu-link"
+                      href={href}
+                      {...(external
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
+                      onClick={() => setNavMenuOpen(false)}
+                    >
+                      {label}
+                      {external ? (
+                        <span className="nav-menu-link-arrow" aria-hidden="true">
+                          ↗
+                        </span>
+                      ) : null}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>,
+          ]
+        : null}
+    </AnimatePresence>
     </>
   );
 }

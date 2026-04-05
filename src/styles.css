@@ -4,6 +4,16 @@
 
 :root {
   color-scheme: dark;
+  /* Single stack site-wide — keep in sync with tailwind.config.js theme.fontFamily.sans */
+  --font-sans:
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
 }
 
 * {
@@ -17,11 +27,65 @@ body,
   min-height: 100%;
 }
 
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-padding-top: 96px;
+}
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 80px;
+  }
+}
+
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   background: #060b18;
   color: #fff;
+}
+
+/* Горизонтальный клип здесь, не на body. Отступ сверху = высота фиксированной шапки (она вне потока). */
+.site-main {
   overflow-x: hidden;
+  max-width: 100%;
+  padding-top: 90px;
+}
+
+@media (max-width: 900px) {
+  .site-main {
+    padding-top: 78px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-main {
+    padding-top: 72px;
+  }
+}
+
+#root {
+  font-family: var(--font-sans);
+}
+
+/* Все заголовки — как на первом экране (.title-static): Medium / 500 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+
+/* Same typeface as body (UA / legacy defaults differ for these) */
+#root blockquote,
+#root button,
+#root input,
+#root textarea,
+#root select {
+  font-family: inherit;
 }
 
 /* ── Hero page ── */
@@ -55,19 +119,62 @@ body {
   fill: none;
 }
 
-/* ── Header ── */
-.top-nav {
-  position: relative;
-  z-index: 2;
+/* ── Header: fixed + скрытие при скролле вниз / показ вверх; фон всегда непрозрачный (как фон сайта) ── */
+.top-nav.profile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 18px 28px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  transform: translateY(0);
+  /* Плотный фон + blur: читаемость на любом контенте под шапкой */
+  background: rgba(6, 11, 24, 0.94);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.28s ease;
 }
 
-.profile-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(2px);
+@media (prefers-reduced-transparency: reduce) {
+  .top-nav.profile-header {
+    background: #060b18;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .top-nav.profile-header {
+    background: #060b18;
+  }
+}
+
+.top-nav.profile-header.profile-header--hidden {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-nav.profile-header {
+    transition-duration: 0.15s;
+  }
+}
+
+/* После прокрутки — чуть сильнее отделение от контента */
+.profile-header--scrolled {
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 4px 28px rgba(0, 0, 0, 0.28);
 }
 
 .top-nav-left {
@@ -128,14 +235,16 @@ body {
 }
 
 .menu-btn {
+  display: none;
+  position: relative;
   border: 0;
   background: transparent;
   width: 30px;
   height: 24px;
-  display: inline-flex;
   flex-direction: column;
   justify-content: center;
-  gap: 7px;
+  align-items: stretch;
+  gap: 6px;
   padding: 0;
   cursor: pointer;
 }
@@ -145,6 +254,97 @@ body {
   width: 28px;
   height: 1.5px;
   background: #bfc5d1;
+  border-radius: 1px;
+  transition:
+    transform 0.28s ease,
+    opacity 0.2s ease;
+  transform-origin: center;
+}
+
+/* Две полоски → «X» при открытии */
+.menu-btn--open span:nth-child(1) {
+  transform: translateY(3.75px) rotate(45deg);
+}
+
+.menu-btn--open span:nth-child(2) {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+.profile-header--menu-open {
+  z-index: 1002;
+  transform: translateY(0);
+  pointer-events: auto;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 4px 32px rgba(0, 0, 0, 0.35);
+}
+
+.nav-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(6, 11, 24, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: min(100%, 320px);
+  max-width: 100vw;
+  padding: clamp(72px, 20vw, 100px) 20px 32px 24px;
+  background: linear-gradient(180deg, rgba(13, 27, 54, 0.98) 0%, rgba(6, 11, 24, 0.98) 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -16px 0 48px rgba(0, 0, 0, 0.45);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-menu-panel-title {
+  margin: 0 0 18px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a94a8;
+}
+
+.nav-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #e8ecf5;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-menu-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.nav-menu-link-arrow {
+  font-size: 14px;
+  opacity: 0.65;
+  flex-shrink: 0;
 }
 
 /* ── Hero content ── */
@@ -274,6 +474,10 @@ body {
     display: none;
   }
 
+  .menu-btn {
+    display: inline-flex;
+  }
+
   .top-nav-right {
     margin-left: auto;
     gap: 12px;
@@ -329,7 +533,6 @@ body {
 .video-work-with-us:hover .btn-arrow,
 .second-link:hover .btn-arrow,
 .section-three-cta:hover .btn-arrow,
-.cases-cta:hover .btn-arrow,
 .section-contact-cta:hover .btn-arrow {
   transform: translate(2px, -2px);
 }
